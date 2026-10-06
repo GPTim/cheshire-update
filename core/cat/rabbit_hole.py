@@ -372,7 +372,12 @@ class RabbitHole:
             )
             inserting_info = f"{d + 1}/{len(docs)}):    {doc.page_content}"
             if doc.page_content != "":
-                doc_embedding = cat.embedder.embed_documents([doc.page_content])
+                try:
+                    doc_embedding = cat.embedder.embed_documents([doc.page_content])
+                except Exception as e:
+                    log.error(f"Error while generating embedding for {source}: {e}")
+                    time.sleep(1)
+                    continue
                 stored_point = cat.memory.vectors.declarative.add_point(
                     doc.page_content,
                     doc_embedding[0],

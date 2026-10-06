@@ -77,6 +77,7 @@ class VectorMemory:
 
             # Qdrant vector DB client
             self.vector_db = QdrantClient(
+                timeout=120,
                 host=qdrant_host,
                 port=qdrant_port,
                 https=qdrant_https,
